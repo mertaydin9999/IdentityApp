@@ -1,4 +1,4 @@
-@model IEnumerable<IdentityUser>
+@model IEnumerable<AppUser>
 
 
 <a asp-action="Create" class="btn btn-primary ">Create User</a>
@@ -9,19 +9,28 @@
             <th>Id</th>
             <th>Name</th>
             <th>Email</th>
-            <th></th>
+            <th style="width: 125px;"></th>
         </tr>
     </thead>
     <tbody>
+        @if(Model.Count() == 0)
+        {
+            <tr>
+                <td colspan="4" class="text-center">Kullanici Yok </td>
+            </tr>
+        }
         @foreach (var user in Model)
         {
             <tr>
                 <td>@user.Id</td>
-                <td>@user.UserName</td>
+                <td>@user.FullName</td>
                 <td>@user.Email</td>
                 <td>
-                    <a href="" class="btn btn-primary btn-sm">Edit</a>
-                    <a href="" class="btn btn-danger btn-sm">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-primary btn-sm">Edit</a>
+                    <form action="Delete" method="post" onsubmit="return confirm('emin misiniz?')" style="display: inline-block;">
+                        <input type="hidden" value="@user.Id" name="id">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
                 </td>
             </tr>
         }
